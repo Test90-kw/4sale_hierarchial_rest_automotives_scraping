@@ -60,28 +60,52 @@ class HierarchialMainScraper:
         except Exception as e:
             print(f"Error saving Excel file for {category_name}: {str(e)}")
 
-    async def process_category(self, category_name, urls):
-        """Process a category of URLs and save results to Excel"""
+    # async def process_category(self, category_name, urls):
+    #     """Process a category of URLs and save results to Excel"""
+    #     all_brand_data = []
+
+    #     for url in urls:
+    #         try:
+    #             print(f"Scraping data from URL: {url}")
+    #             scraper = CarScraper(url)
+    #             brand_data = await scraper.scrape_brands_and_types()
+    #             if brand_data:
+    #                 all_brand_data.extend(brand_data)
+    #                 print(f"Successfully scraped data from {url}")
+    #             else:
+    #                 print(f"No data retrieved from {url}")
+
+    #         except Exception as e:
+    #             print(f"Error processing URL {url}: {str(e)}")
+    #             continue
+
+    #     self.save_to_excel(category_name, all_brand_data)
+    #     return all_brand_data
+
+    async def process_category(self, category_name, category_data):
+        """Process a category of URLs with their respective page numbers and save results to Excel"""
         all_brand_data = []
 
-        for url in urls:
-            try:
-                print(f"Scraping data from URL: {url}")
-                scraper = CarScraper(url)
-                brand_data = await scraper.scrape_brands_and_types()
-                if brand_data:
-                    all_brand_data.extend(brand_data)
-                    print(f"Successfully scraped data from {url}")
-                else:
-                    print(f"No data retrieved from {url}")
+        # Extract the URL and number of pages from category_data
+        url, num_pages = category_data
 
-            except Exception as e:
-                print(f"Error processing URL {url}: {str(e)}")
-                continue
+        try:
+            print(f"Scraping data from URL: {url} with {num_pages} pages")
+            scraper = CarScraper(url, num_pages)
+            brand_data = await scraper.scrape_brands_and_types()
+            if brand_data:
+                all_brand_data.extend(brand_data)
+                print(f"Successfully scraped data from {url}")
+            else:
+                print(f"No data retrieved from {url}")
+
+        except Exception as e:
+            print(f"Error processing URL {url}: {str(e)}")
 
         self.save_to_excel(category_name, all_brand_data)
         return all_brand_data
 
+    
     async def run(self, automotives_data):
         """Main method to run the scraper"""
         print("Starting the scraping process...")
@@ -95,11 +119,11 @@ class HierarchialMainScraper:
 
 def main():
     automotives_data = {
-        "الوكالات": ["https://www.q84sale.com/ar/automotive/dealerships", 3],
-        "دراجات": ["https://www.q84sale.com/ar/automotive/bikes", 5],
-        "مكاتب تأجير السيارات": ["https://www.q84sale.com/ar/automotive/car-rental", 1],
-        "مكاتب السيارات": ["https://www.q84sale.com/ar/automotive/car-offices", 2],
-        "خدمات المحركات": ["https://www.q84sale.com/ar/automotive/automotive-services", 2],
+        "الوكالات": ("https://www.q84sale.com/ar/automotive/dealerships", 3),
+        "دراجات": ("https://www.q84sale.com/ar/automotive/bikes", 5),
+        "مكاتب تأجير السيارات": ("https://www.q84sale.com/ar/automotive/car-rental", 1),
+        "مكاتب السيارات": ("https://www.q84sale.com/ar/automotive/car-offices", 2),
+        "خدمات المحركات": ("https://www.q84sale.com/ar/automotive/automotive-services", 2),
     }
 
     scraper = HierarchialMainScraper()
