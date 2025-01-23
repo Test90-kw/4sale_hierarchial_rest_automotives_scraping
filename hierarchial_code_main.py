@@ -95,11 +95,11 @@ class HierarchialMainScraper:
 
 def main():
     automotives_data = {
-        "الوكالات": ["https://www.q84sale.com/ar/automotive/dealerships"],
-        "دراجات": ["https://www.q84sale.com/ar/automotive/bikes"],
-        "مكاتب تأجير السيارات": ["https://www.q84sale.com/ar/automotive/car-rental"],
-        "مكاتب السيارات": ["https://www.q84sale.com/ar/automotive/car-offices"],
-        "خدمات المحركات": ["https://www.q84sale.com/ar/automotive/automotive-services"],
+        "الوكالات": ["https://www.q84sale.com/ar/automotive/dealerships", 3],
+        "دراجات": ["https://www.q84sale.com/ar/automotive/bikes", 5],
+        "مكاتب تأجير السيارات": ["https://www.q84sale.com/ar/automotive/car-rental", 1],
+        "مكاتب السيارات": ["https://www.q84sale.com/ar/automotive/car-offices", 2],
+        "خدمات المحركات": ["https://www.q84sale.com/ar/automotive/automotive-services", 2],
     }
 
     scraper = HierarchialMainScraper()
