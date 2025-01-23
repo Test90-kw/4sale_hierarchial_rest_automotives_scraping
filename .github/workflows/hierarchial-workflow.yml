@@ -1,4 +1,4 @@
-name: Part3 Workflow
+name: Hierarchial Workflow
 
 on:
   schedule:
