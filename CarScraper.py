@@ -1,6 +1,6 @@
 import asyncio
 from playwright.async_api import async_playwright
-from DetailsScraping import DetailsScraping
+from DetailsScraper import DetailsScraping
 
 class CarScraper:
     def __init__(self, url, num_pages=1, specific_brands=None, specific_pages=None):
