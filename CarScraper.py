@@ -1,17 +1,13 @@
 import asyncio
-import re
 from playwright.async_api import async_playwright
 from DetailsScraper import DetailsScraping
 
 class CarScraper:
-    def __init__(self, url, num_pages=1):
-        """
-        Initialize CarScraper with the URL and the number of pages to scrape.
-        :param url: Base URL for the car brands
-        :param num_pages: Number of pages to scrape for each brand link
-        """
+    def __init__(self, url, num_pages=1, specific_brands=None, specific_pages=None):
         self.url = url
         self.num_pages = num_pages
+        self.specific_brands = specific_brands or []
+        self.specific_pages = specific_pages
         self.data = []
 
     async def scrape_brands_and_types(self):
@@ -20,7 +16,6 @@ class CarScraper:
             page = await browser.new_page()
             await page.goto(self.url)
 
-            # Get all brand links and titles
             brand_elements = await page.query_selector_all('.styles_itemWrapper__MTzPB a')
 
             if not brand_elements:
@@ -34,17 +29,16 @@ class CarScraper:
                 if brand_link:
                     base_url = self.url.split('/', 3)[0] + '//' + self.url.split('/', 3)[2]
                     full_brand_link = base_url + brand_link if brand_link.startswith('/') else brand_link
-
-                    # Print the full brand link
                     print(f"Full brand link: {full_brand_link}")
 
-                    # Scrape multiple pages for the brand link based on num_pages
+                    # Determine number of pages to scrape based on brand title
+                    pages_to_scrape = self.specific_pages if title in self.specific_brands else self.num_pages
                     brand_data = []
-                    for page_num in range(1, self.num_pages + 1):
+
+                    for page_num in range(1, pages_to_scrape + 1):
                         paginated_link = f"{full_brand_link}/{page_num}"
                         print(f"Scraping paginated link: {paginated_link}")
 
-                        # Use DetailsScraper to scrape data
                         details_scraper = DetailsScraping(paginated_link)
                         try:
                             car_details = await details_scraper.get_car_details()
@@ -52,7 +46,6 @@ class CarScraper:
                         except Exception as e:
                             print(f"Error scraping {paginated_link}: {e}")
 
-                    # Append the data for the brand
                     self.data.append({
                         'brand_title': title,
                         'brand_link': full_brand_link.rsplit('/', 1)[0] + '/{}',
