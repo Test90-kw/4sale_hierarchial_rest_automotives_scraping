@@ -94,7 +94,7 @@ class HierarchialMainScraper:
 
 def main():
     automotives_data = {
-        "مكاتب السيارات": ("https://www.q84sale.com/ar/automotive/car-offices", 1, ["الركن الدولي 3 للسيارات", "يوركار", "الريان  1 للسيارات"], 2),
+        "مكاتب السيارات": ("https://www.q84sale.com/ar/automotive/car-offices", 1, ["الركن الدولي 3 للسيارات", "يوركار", "الريان  1 للسيارات", "القمة"], 2),
     }
 
     credentials_json = os.environ.get('HIERARCHIAL_GCLOUD_KEY_JSON')
