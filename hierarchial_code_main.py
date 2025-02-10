@@ -13,12 +13,21 @@ from playwright.async_api import async_playwright
 
 class HierarchialMainScraper:
     def __init__(self, credentials_dict):
+        # Set up logging first
+        self.logger = logging.getLogger(__name__)
+        self.setup_logging()
+        
+        # Then initialize other attributes
         self.yesterday = (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d')
         self.drive_saver = SavingOnDrive(credentials_dict)
         self.drive_saver.authenticate()
         self.folder_ids = self.get_or_create_yesterday_folders()
-        self.logger = logging.getLogger(__name__)
-        self.setup_logging()
+        self.temp_dir = Path("temp_files")
+        self.temp_dir.mkdir(exist_ok=True)
+        self.upload_retries = 3
+        self.upload_retry_delay = 15
+        self.page_delay = 3
+        self.chunk_delay = 10
 
     def setup_logging(self):
         """Configure logging."""
