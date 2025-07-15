@@ -17,8 +17,8 @@ class SavingOnDrive:
         self.scopes = ['https://www.googleapis.com/auth/drive']
         self.service = None
         self.parent_folder_ids = [
-            '1qnzV3sACpyrADIpRKVQuzAcirvXvjqo1',
-            '10nEH6A4H7gvkGBE-81OVXHuGALsw7vab'
+            '1PBrE4Qfage1WgcS_rRjNpO7hW50emOaT',
+            '1mLRdYvZb56LS10M0hjpzYTVrQiyWGN7m'
         ]
         self.logger = logging.getLogger(__name__)
         self.setup_logging()
